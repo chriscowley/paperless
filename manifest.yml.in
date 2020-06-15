@@ -1,0 +1,20 @@
+image: docker.io/chriscowley/paperless:{tag}
+tags: ['{majmin}','latest']
+manifests:
+ -
+   image: docker.io/chriscowley/paperless:armhf-{tag}
+   platform:
+     architecture: arm
+     variant: v7
+     os: linux
+ -
+   image: docker.io/chriscowley/paperless:arm64-{tag}
+   platform:
+     architecture: arm64
+     variant: v8
+     os: linux
+ -
+   image: docker.io/chriscowley/paperless:amd64-{tag}
+   platform:
+     architecture: amd64
+     os: linux

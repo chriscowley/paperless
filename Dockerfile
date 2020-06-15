@@ -1,5 +1,5 @@
 ARG ARCH=
-FROM ${ARCH}/alpine:3.12.0
+FROM docker.io/${ARCH}/alpine:3.12.0
 
 LABEL maintainer="The Paperless Project https://github.com/the-paperless-project/paperless" \
       contributors="Guy Addadi <addadi@gmail.com>, Pit Kleyersburg <pitkley@googlemail.com>, \
@@ -7,6 +7,7 @@ LABEL maintainer="The Paperless Project https://github.com/the-paperless-project
 
 # Copy Pipfiles file, init script and gunicorn.conf
 COPY Pipfile* /usr/src/paperless/
+COPY requirements.txt /usr/src/paperless/
 COPY scripts/docker-entrypoint.sh /sbin/docker-entrypoint.sh
 COPY scripts/gunicorn.conf /usr/src/paperless/
 
@@ -28,8 +29,9 @@ RUN apk add --no-cache \
       shadow \
       sudo \
       tesseract-ocr \
-			tzdata \
+      tzdata \
       unpaper && \
+    ln -sv /usr/bin/python3 /usr/local/bin/python && \
     apk add --no-cache --virtual .build-dependencies \
       g++ \
       gcc \
@@ -39,13 +41,12 @@ RUN apk add --no-cache \
       postgresql-dev \
       python3-dev \
       zlib-dev && \
-    ln -sv /usr/bin/python3 /usr/local/bin/python && \
 # Install python dependencies
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     cd /usr/src/paperless && \
-    pip3 install --upgrade pip pipenv && \
-    pipenv install --system --deploy && \
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt && \
 # Remove build dependencies
     apk del .build-dependencies && \
 # Create the consumption directory
