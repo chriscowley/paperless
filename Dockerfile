@@ -1,4 +1,5 @@
-FROM docker.io/alpine:3.11
+ARG ARCH=
+FROM ${ARCH}/alpine:3.12.0
 
 LABEL maintainer="The Paperless Project https://github.com/the-paperless-project/paperless" \
       contributors="Guy Addadi <addadi@gmail.com>, Pit Kleyersburg <pitkley@googlemail.com>, \
