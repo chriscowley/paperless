@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM docker.io/alpine:3.11
 
 LABEL maintainer="The Paperless Project https://github.com/the-paperless-project/paperless" \
       contributors="Guy Addadi <addadi@gmail.com>, Pit Kleyersburg <pitkley@googlemail.com>, \
@@ -38,6 +38,7 @@ RUN apk add --no-cache \
       postgresql-dev \
       python3-dev \
       zlib-dev && \
+    ln -sv /usr/bin/python3 /usr/local/bin/python && \
 # Install python dependencies
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
